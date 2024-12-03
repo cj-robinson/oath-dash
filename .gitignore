@@ -1,0 +1,5 @@
+/__pycache__
+.DS_Store
+oath_jan_nov_2024.csv
+oath_database.sqlite
+instance/

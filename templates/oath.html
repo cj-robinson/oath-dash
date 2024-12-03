@@ -1,0 +1,51 @@
+<head>
+    <title>OATH Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+  </head>
+<body>
+    <br/>
+    <h1 class="display-4 text-center">OATH Hearings Division Case Explorer</h1>
+    <br/>
+
+
+    <div class="mx-auto" style="width: 1000px;">
+        <h4 class="text-center">Welcome to the OATH explorer. Here, you can explore recent trends in enforcement of New York City Laws. </h4>
+        <br/>
+        <br/>
+        <!-- <div id="count_plot"></div> -->
+        <h3>Departments ({{ current_page }} of {{ total_pages }}, {{ total_departments }} total):</h3>
+        <ul>
+            {% for dept in dept_list %}
+                <li><a href="/department/{{ dept.lower().replace(' ', '-') }}">{{ dept }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <!-- Pagination Controls -->
+        <nav aria-label="Department pagination">
+            <ul class="pagination">
+                {% if current_page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('home_page', page=current_page-1, per_page=per_page) }}">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for page_num in range(1, total_pages + 1) %}
+                    <li class="page-item {% if page_num == current_page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('home_page', page=page_num, per_page=per_page) }}">{{ page_num }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if current_page < total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('home_page', page=current_page+1, per_page=per_page) }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    <!-- <script>
+        const count_graph = JSON.parse('{{ count_graph_json | safe }}');
+        Plotly.newPlot('count_plot', count_graph.data, count_graph.layout);
+    </script> -->
+</body>
+

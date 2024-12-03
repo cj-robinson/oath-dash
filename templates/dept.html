@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h1 class="text-center">{{ dept_name.title() }}</h1>
+<h5 class="text-center"> There are {{ case_count }} cases for this department.</h5>
+
+<div id="count_plot"></div>
+<div id="sum_plot"></div>
+<div id="top_10_plot"></div>
+
+<p>Cases:</p>
+<ul>
+    {% for case_num in case_list %}
+        <li><a href="/case/{{ case_num }}">{{ case_num }}</a></li>
+    {% endfor %}
+</ul>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    const count_graph = JSON.parse('{{ count_graph_json | safe }}');
+    Plotly.newPlot('count_plot', count_graph.data, count_graph.layout);
+
+    const sum_graph = JSON.parse('{{ sum_graph_json | safe }}');
+    Plotly.newPlot('sum_plot', sum_graph.data, sum_graph.layout);
+
+    const top_10_graph = JSON.parse('{{ top_10_graph_json | safe }}');
+    Plotly.newPlot('top_10_plot', top_10_graph.data, top_10_graph.layout);
+</script>
+{% endblock %}

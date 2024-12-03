@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h1>Ticket Number: {{case['ticket_number']}}</h1>
+<h3>Violation Date: {{case['violation_date']}}</h3>
+<h3>Violation Description: {{case['violation_details']}}</h3>
+<p> Name: {{ case['respondent_first_name'] }} </p>
+<p> Violation Amount: {{ case['total_violation_amount'] }} </p>
+<p> Penalty Imposed: {{ case['penalty_imposed'] }} </p>
+<p> Code 1 Description: {{ case['Charge #1: Code Description'] }} </p>
+<p> {{ case['Charge #2: Code Description'] }} </p>
+
+{% endblock %}
