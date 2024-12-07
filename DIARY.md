@@ -23,3 +23,18 @@ Added plotly graphs for sum of total fines over time and cases
 
 Added pagination with the help of chatgpt and claude
 https://claude.ai/chat/d4c8ba89-07bd-4a88-bfe1-68407311cf62
+
+
+# Dec 5
+
+Styling changes 
+
+# Dec 7
+
+Changed dept to drop down
+
+Added text search for code violation
+
+Changed search and department HTML pages into one
+
+Moved pagination over using Soma's method

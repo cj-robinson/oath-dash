@@ -1,51 +1,69 @@
-<head>
-    <title>OATH Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-  </head>
+{% extends 'layout.html' %}
+{% block content %}
+
 <body>
     <br/>
-    <h1 class="display-4 text-center">OATH Hearings Division Case Explorer</h1>
-    <br/>
+    <div class="mx-auto" style="width: 1000px; font-family: 'Devanagari', sans-serif;    ">
+        <div style="text-align:center;">
+            <h1 class="text-center" style="font-weight: bold; font-family: 'Devanagari', sans-serif;">OATH Hearings Division Case Explorer</h1>
+            <h5 style="width: 700px; display: inline-block; text-align: center;">OATH (The Office of Administrative Trials) is the city's central administrative court system and holds summonses for several city departments.</h5>
+            <h5 style="width: 700px; display: inline-block; text-align: center;">Find trends and individual complaints by department and code violation. </h5>
 
-
-    <div class="mx-auto" style="width: 1000px;">
-        <h4 class="text-center">Welcome to the OATH explorer. Here, you can explore recent trends in enforcement of New York City Laws. </h4>
+        </div>
         <br/>
         <br/>
-        <!-- <div id="count_plot"></div> -->
-        <h3>Departments ({{ current_page }} of {{ total_pages }}, {{ total_departments }} total):</h3>
-        <ul>
-            {% for dept in dept_list %}
-                <li><a href="/department/{{ dept.lower().replace(' ', '-') }}">{{ dept }}</a></li>
-            {% endfor %}
-        </ul>
-
-        <!-- Pagination Controls -->
-        <nav aria-label="Department pagination">
-            <ul class="pagination">
-                {% if current_page > 1 %}
-                    <li class="page-item">
-                        <a class="page-link" href="{{ url_for('home_page', page=current_page-1, per_page=per_page) }}">Previous</a>
-                    </li>
-                {% endif %}
-
-                {% for page_num in range(1, total_pages + 1) %}
-                    <li class="page-item {% if page_num == current_page %}active{% endif %}">
-                        <a class="page-link" href="{{ url_for('home_page', page=page_num, per_page=per_page) }}">{{ page_num }}</a>
-                    </li>
+        <div style="display: flex; gap: 10px; text-align:center;">
+            <label for="dept-select" style="display: inline-block;vertical-align: middle; font-weight: bold; font-family: 'Devanagari', sans-serif;">
+                Issuing Agency:
+            </label>
+            <select id="dept-select" name="depts" method="GET" action="/">
+                {% for dept in dept_list %}
+                    <option value="{{dept}}" {% if loop.first %}selected{% endif %}>{{dept}}</option>
                 {% endfor %}
+            </select>
+            <button style="display: inline-block;vertical-align: middle;" onclick="searchDepartment()">Search Agency</button>
+        </div>    
+        <br/>
+        <p style="font-weight: bold;">OR</p>
+        <br/>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <label for="dept-select" style="display: inline-block;vertical-align: middle; font-weight: bold; font-family: 'Devanagari', sans-serif;">
+                Primary Code Violation Description Search:
+            </label>
+            <input type="text" id="search-input" placeholder="Search text..." style="margin-right: 10px;">
+            <button onclick="searchText()">Search Text</button>
+         </div>
 
-                {% if current_page < total_pages %}
-                    <li class="page-item">
-                        <a class="page-link" href="{{ url_for('home_page', page=current_page+1, per_page=per_page) }}">Next</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
     </div>
-    <!-- <script>
-        const count_graph = JSON.parse('{{ count_graph_json | safe }}');
-        Plotly.newPlot('count_plot', count_graph.data, count_graph.layout);
-    </script> -->
 </body>
+
+<script>
+    // some claude code to get dept
+    //https://claude.ai/chat/5b86d95b-7897-4e3f-be59-d5b1e9d60767
+    function searchDepartment() {
+        // Get the selected department
+        const deptSelect = document.getElementById('dept-select');
+        const selectedDept = deptSelect.value;
+        
+        // Convert to URL-friendly format
+        const formattedDept = selectedDept.toLowerCase().replace(/\s+/g, '-');
+        
+        // Navigate to the department URL
+        window.location.href = `/department/${formattedDept}/page=1`;
+    }
+
+    function searchText() {
+        const searchInput = document.getElementById('search-input');
+        const searchTerm = searchInput.value;
+        
+        // Convert to URL-friendly format
+        const formattedSearch = searchTerm.toLowerCase().replace(/\s+/g, '-');
+        
+        // Navigate to the search URL
+        window.location.href = `/search/${formattedSearch}/page=1`;
+    }
+</script>
+
+{% endblock %}
+
 

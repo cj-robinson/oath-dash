@@ -1,13 +1,45 @@
 {% extends 'layout.html' %}
 {% block content %}
+<div class="container">
+    <h1  class="text-center">Ticket Number: {{case['ticket_number']}}</h1>
+    <a href="https://a820-ecbticketfinder.nyc.gov/GetViolationImage?violationNumber={{ case['ticket_number'] }}" target="_blank" style='text-align:center'>
+        <h3 >Link to summons image</h3>
+    </a>
+    <p style='text-align:center'> (Note: Summonses issued to for hire vehicles or restaurants, and summonses issued by the Department of Consumer and Worker Protection are not currently available using the Summons Finder.)</p>
+    <br>
+    <div class="row">
+        <div class="col">
+            <h3> Case Information:</h3>
+            <p>Issuing Agency: {{case['issuing_agency']}}</p>
+            <p>Violation Date: {{case['violation_date']}}</p>
+            <p>Violation Description: {{case['violation_details']}}</p>
+            <p> Respondent Name: {{ case['respondent_first_name'] }} {{ case['respondent_last_name'] }}  </p>
+            <p> Violation Borough: {{ case['violation_borough'] }} </p>
+            <p> Balance Due: {{ case['balance_due'] }} </p>
+            <p> Penalty Imposed: {{ case['penalty_imposed'] }} </p>
+            <p> Penalty Imposed: {{ case['penalty_imposed'] }} </p>
+            <p> Violation Address:  {{ case['Violation Location (House #)'] }} {{ case['Violation Location (Street Name)'] }} {{ case['Violation Location (City)'] }} {{ case['Violation Location (Zip Code)'] }}</p>
+        </div>
+        <div class="col">
+            <h3> Hearing Information:</h3>
+            <p> Hearing Status:  {{ case['hearing_status'] }} </p>
+            <p> Hearing Result:  {{ case['hearing_result'] }} </p>
+            <p> Hearing Date:  {{ case['hearing_date'] }} </p>
+            <p> Decision Date:  {{ case['decision_date'] }} </p>
+            <p> Violation Amount: {{ case['total_violation_amount'] }} </p>
+            <p> Violation Details: {{ case['violation_details'] }} </p>
+            <p> Paid Amount: {{ case['Paid Amount'] }} </p>
+            <p> Addition Fees: {{ case['Additional Penalties or Late Fees'] }} </p>
+            <p> Compliance Status: {{ case['complaint_status'] }} </p>
+        </div>
+    </div>
+    <h3> Primary Charge:</h3>
+    <p> Charge 1 Code: {{ case['charge_1_code'] }} </p>
+    <p> Charge 1 Code Section: {{ case['charge_1_code_section'] }} </p>
+    <p> Charge 1 Code Description: {{ case['charge_1_code_description'] }} </p>
+    <p> Charge 1 Code Violation Amount: {{ case['charge_1_violation_amount'] }} </p>
+    <h4> Other charges:</h4>
+    <div>{{ table_html | safe }}</div>
 
-<h1>Ticket Number: {{case['ticket_number']}}</h1>
-<h3>Violation Date: {{case['violation_date']}}</h3>
-<h3>Violation Description: {{case['violation_details']}}</h3>
-<p> Name: {{ case['respondent_first_name'] }} </p>
-<p> Violation Amount: {{ case['total_violation_amount'] }} </p>
-<p> Penalty Imposed: {{ case['penalty_imposed'] }} </p>
-<p> Code 1 Description: {{ case['Charge #1: Code Description'] }} </p>
-<p> {{ case['Charge #2: Code Description'] }} </p>
-
+</div>
 {% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+{% if case_count == 0 %}
+
+    <p>No cases found for your search.</p>
+
+{% else %}
+
+  {% if type == "department" %}
+
+    <h1 class="text-center">Issuing Agency: {{ title.title() }}</h1>
+
+  {% elif type == "search" %}
+
+    <h1 class="text-center">Code violation search: "{{ title.title() }}"</h1>
+
+  {% endif %}
+
+  <h5 class="text-center">There are {{ case_count }} cases for this {{ type }}.</h5>
+
+  <div id="count_plot"></div>
+  <div id="sum_plot"></div>
+
+  <div>{{ table_html | safe }}</div>
+
+  <p style="font-family: 'Devanagari', sans-serif;">Individual Cases:</p>
+  <ul>
+      {% for case_num in case_list %}
+          <li><a href="/case/{{ case_num }}">{{ case_num }}</a></li>
+      {% endfor %}
+  </ul>
+  <div>{{ pagination.links|safe }}</div>
+
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script>
+      const count_graph = JSON.parse('{{ count_graph_json | safe }}');
+      Plotly.newPlot('count_plot', count_graph.data, count_graph.layout);
+
+      const sum_graph = JSON.parse('{{ sum_graph_json | safe }}');
+      Plotly.newPlot('sum_plot', sum_graph.data, sum_graph.layout);
+
+  </script>
+
+  <style>
+    .pagination {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      justify-content: center;
+    }
+    
+    .page-item {
+      margin: 0 5px;
+    }
+    
+    .page-link {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      border: 1px solid #dee2e6;
+      background-color: #fff;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .page-link:hover {
+      background-color: #f0f0f0;
+    }
+    
+    .page-item.active .page-link {
+      background-color: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+    
+    .page-item.disabled .page-link {
+      color: #6c757d;
+      pointer-events: none;
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+    }
+    
+    /* Adjustments for small screens */
+    @media (max-width: 576px) {
+      .pagination {
+        flex-wrap: wrap;
+      }
+    
+      .page-item {
+        margin: 3px;
+      }
+    
+      .page-link {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+    }
+    
+  </style>
+
+{% endif %}
+
+{% endblock %}
+
+  
