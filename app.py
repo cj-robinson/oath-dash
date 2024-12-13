@@ -92,7 +92,7 @@ def dept(dept_name):
                     per_page=PER_PAGE) 
 
     # change to a date
-    df['month'] = pd.to_datetime(df['violation_date_formatted']).dt.month
+    df['month'] = pd.to_datetime(df['violation_date_formatted']).dt.month_name()
 
     # change to float
     df['total_violation_amount'] = pd.to_numeric(df['total_violation_amount'], errors='coerce')
@@ -102,11 +102,15 @@ def dept(dept_name):
         'total_violation_amount': 'sum',
         'ticket_number': 'count'  # Count the number of violations
     }).rename(columns={'total_violation_amount': 'sum', 'ticket_number': 'count'})
-    
-    count_fig = px.line(x=month_count.index, y=month_count['count'], title='Cases Filed', labels={'x': 'Month', 'y': 'Cases'})
+     
+    month_order = pd.to_datetime(month_count.index, format='%B').month
+    month_count['month_order'] = month_order
+    month_count = month_count.sort_values('month_order').drop(columns='month_order')
+
+    count_fig = px.bar(x=month_count.index, y=month_count['count'], title='Cases Filed', labels={'x': 'Month', 'y': 'Cases'})
     count_graph_json  = count_fig.to_json()
 
-    sum_fig = px.line(x=month_count.index, y=month_count['sum'], title='Sum of Total Violation Fines', labels={'x': 'Month', 'y': '$'})
+    sum_fig = px.bar(x=month_count.index, y=month_count['sum'], title='Sum of Total Violation Fines', labels={'x': 'Month', 'y': '$'})
     sum_graph_json  = sum_fig.to_json()
     
     top_10_codes = df['charge_1_code_description'].value_counts().sort_values(ascending = False).head(10).sort_values(ascending=False)
@@ -182,7 +186,7 @@ def search(search_text):
                         per_page=PER_PAGE) 
 
         # change to a date
-        df['month'] = pd.to_datetime(df['violation_date_formatted']).dt.month
+        df['month'] = pd.to_datetime(df['violation_date_formatted']).dt.month_name()
 
         # change to float
         df['total_violation_amount'] = pd.to_numeric(df['total_violation_amount'], errors='coerce')
@@ -192,10 +196,14 @@ def search(search_text):
             'total_violation_amount': 'sum',
             'ticket_number': 'count'  # Count the number of violations
         }).rename(columns={'total_violation_amount': 'sum', 'ticket_number': 'count'})
-        
+            
+        month_order = pd.to_datetime(month_count.index, format='%B').month
+        month_count['month_order'] = month_order
+        month_count = month_count.sort_values('month_order').drop(columns='month_order')
+
         month_count.columns = ['sum', 'count']  # Flatten column names
         
-        count_fig = px.line(x=month_count.index, y=month_count['count'], title='Cases Filed', labels={'x': 'Month', 'y': 'Cases'})
+        count_fig = px.bar(x=month_count.index, y=month_count['count'], title='Cases Filed', labels={'x': 'Month', 'y': 'Cases'})
         count_graph_json  = count_fig.to_json()
 
         sum_fig = px.line(

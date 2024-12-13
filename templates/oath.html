@@ -13,8 +13,8 @@
         <br/>
         <br/>
         <div style="display: flex; gap: 10px; text-align:center;">
-            <label for="dept-select" style="display: inline-block;vertical-align: middle; font-weight: bold; font-family: 'Devanagari', sans-serif;">
-                Issuing Agency:
+            <label for="dept-select" style="display: inline-block;vertical-align: middle; font-weight: bold; font-family: 'Devanagari', sans-serif;line-height: 1.5;">
+                Issuing Agency Search:
             </label>
             <select id="dept-select" name="depts" method="GET" action="/">
                 {% for dept in dept_list %}
@@ -22,12 +22,13 @@
                 {% endfor %}
             </select>
             <button style="display: inline-block;vertical-align: middle;" onclick="searchDepartment()">Search Agency</button>
-        </div>    
-        <br/>
-        <p style="font-weight: bold;">OR</p>
+        </div> 
+        <br/>   
+        <hr/>	
+
         <br/>
         <div style="display: flex; align-items: center; gap: 10px;">
-            <label for="dept-select" style="display: inline-block;vertical-align: middle; font-weight: bold; font-family: 'Devanagari', sans-serif;">
+            <label for="dept-select" style="display: inline-block; vertical-align: middle; font-weight: bold; font-family: 'Devanagari', sans-serif;line-height: 1.5; ">
                 Primary Code Violation Description Search:
             </label>
             <input type="text" id="search-input" placeholder="Search text..." style="margin-right: 10px;">

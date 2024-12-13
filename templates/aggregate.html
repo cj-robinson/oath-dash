@@ -6,10 +6,11 @@
     <p>No cases found for your search.</p>
 
 {% else %}
+  <br/>
 
   {% if type == "department" %}
 
-    <h1 class="text-center">Issuing Agency: {{ title.title() }}</h1>
+    <h1 class="text-center"  style="font-weight: bold;">Issuing Agency: {{ title.title() }}</h1>
 
   {% elif type == "search" %}
 
@@ -29,14 +30,15 @@
 
   <h5 style="font-family: 'Devanagari', sans-serif;">Individual Cases:</h5>
 
-  <ul>
-      {% for case_num in case_list %}
-          <li><a href="/case/{{ case_num }}">{{ case_num }}</a></li>
-      {% endfor %}
-  </ul>
+  <div class="case-list">
+    {% for case_num in case_list %}
+        <div class="case-item">
+            <a href="/case/{{ case_num }}">{{ case_num }}</a>
+        </div>
+    {% endfor %}
+</div>
 
-  {{ pagination.links | safe }}
-
+{{ pagination.links | safe }}
 
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script>
@@ -48,6 +50,19 @@
   </script>
 
   <style>
+    .case-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    }
+
+    .case-item {
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        text-align: center;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
     .pagination {
       display: flex;
       list-style: none;
