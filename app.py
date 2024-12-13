@@ -8,7 +8,10 @@ import plotly.graph_objects as go
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/cjrobinson/data/columbia/foundations/oath-dash/oath_limited.sqlite3'
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir,'oath_limited.sqlite3')}"
 db = SQLAlchemy(app)
 
 with app.app_context():
