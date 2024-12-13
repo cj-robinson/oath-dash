@@ -20,17 +20,22 @@
   <h5 class="text-center">There are {{ case_count }} cases for this {{ type }}.</h5>
 
   <div id="count_plot"></div>
+
   <div id="sum_plot"></div>
+
+  <h5 style="font-family: 'Devanagari', sans-serif;">Most Common Case Descriptions:</h5>
 
   <div>{{ table_html | safe }}</div>
 
-  <p style="font-family: 'Devanagari', sans-serif;">Individual Cases:</p>
+  <h5 style="font-family: 'Devanagari', sans-serif;">Individual Cases:</h5>
+
   <ul>
       {% for case_num in case_list %}
           <li><a href="/case/{{ case_num }}">{{ case_num }}</a></li>
       {% endfor %}
   </ul>
-  <div>{{ pagination.links|safe }}</div>
+
+  {{ pagination.links | safe }}
 
 
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -40,7 +45,6 @@
 
       const sum_graph = JSON.parse('{{ sum_graph_json | safe }}');
       Plotly.newPlot('sum_plot', sum_graph.data, sum_graph.layout);
-
   </script>
 
   <style>

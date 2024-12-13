@@ -57,8 +57,8 @@ def case_page(case_id):
         table_html=table_html
     )
 
-@app.route("/department/<string:dept_name>/page=<int:page>")
-def dept(dept_name, page):
+@app.route("/department/<string:dept_name>")
+def dept(dept_name):
     dept_name = dept_name.replace('-', ' ')
     cases = oath_cases.query.filter(func.lower(func.replace(oath_cases.issuing_agency, '-', ' ')) == dept_name.lower()).all()
     
@@ -73,18 +73,21 @@ def dept(dept_name, page):
     # pull individual cases via pagination
     case_list = list(set(df['ticket_number']))
     case_count = f"{len(case_list):,}"
+    page = request.args.get(get_page_parameter(), type=int, default=1)
 
     PER_PAGE = 20
     current_page = int(request.args.get('page', 1)) 
     start = PER_PAGE * current_page - PER_PAGE
     end = PER_PAGE * current_page
 
+
     case_list = case_list[start:end]
 
-    pagination = Pagination(total=df.shape[0],
+    pagination = Pagination(page=page, 
+                            total=df.shape[0],
                     current_page=current_page,
-                    per_page=PER_PAGE)
-    
+                    per_page=PER_PAGE) 
+
     # change to a date
     df['month'] = pd.to_datetime(df['violation_date_formatted']).dt.month
 
@@ -124,8 +127,8 @@ def dept(dept_name, page):
         type="department"
     )
 
-@app.route("/search/<string:search_text>/page=<int:page>")
-def search(search_text, page):
+@app.route("/search/<string:search_text>")
+def search(search_text):
     search_text = search_text.replace('-', ' ')
     # does a case sensitive search
     # Split the search_text into individual words
@@ -160,17 +163,20 @@ def search(search_text, page):
         # pull individual cases via pagination
         case_list = list(set(df['ticket_number']))
         case_count = f"{len(case_list):,}"
+        page = request.args.get(get_page_parameter(), type=int, default=1)
 
         PER_PAGE = 20
         current_page = int(request.args.get('page', 1)) 
         start = PER_PAGE * current_page - PER_PAGE
         end = PER_PAGE * current_page
 
+
         case_list = case_list[start:end]
 
-        pagination = Pagination(total=df.shape[0],
+        pagination = Pagination(page=page, 
+                                total=df.shape[0],
                         current_page=current_page,
-                        per_page=PER_PAGE)
+                        per_page=PER_PAGE) 
 
         # change to a date
         df['month'] = pd.to_datetime(df['violation_date_formatted']).dt.month

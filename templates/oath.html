@@ -49,7 +49,7 @@
         const formattedDept = selectedDept.toLowerCase().replace(/\s+/g, '-');
         
         // Navigate to the department URL
-        window.location.href = `/department/${formattedDept}/page=1`;
+        window.location.href = `/department/${formattedDept}`;
     }
 
     function searchText() {
@@ -60,7 +60,7 @@
         const formattedSearch = searchTerm.toLowerCase().replace(/\s+/g, '-');
         
         // Navigate to the search URL
-        window.location.href = `/search/${formattedSearch}/page=1`;
+        window.location.href = `/search/${formattedSearch}`;
     }
 </script>
 

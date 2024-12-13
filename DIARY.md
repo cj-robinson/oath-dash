@@ -37,4 +37,8 @@ Added text search for code violation
 
 Changed search and department HTML pages into one
 
-Moved pagination over using Soma's method
+Next up
+- fix pagination active class
+- make it more clear for indv page list
+- maps!
+- make it faster https://chatgpt.com/c/67549798-b0d0-800a-827a-3463123abb10
