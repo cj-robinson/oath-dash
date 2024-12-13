@@ -8,14 +8,14 @@ import plotly.graph_objects as go
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/cjrobinson/data/columbia/foundations/oath-dash/oath_database.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/cjrobinson/data/columbia/foundations/oath-dash/oath_limited.sqlite3'
 db = SQLAlchemy(app)
 
 with app.app_context():
     db.Model.metadata.reflect(db.engine)
 
 class oath_cases(db.Model):
-    __tablename__ = 'oath_jan_nov_2024'
+    __tablename__ = 'oath_database_limited.sqlite'
     __table_args__ = { 'extend_existing': True }
     ticket_number = db.Column(db.Text, primary_key=True)
 
